@@ -1,140 +1,193 @@
-# Predicting Daily Cycling Traffic in Flanders
-Predicting Cycling Traffic in Flanders
+# Predicting Cycling Traffic in Flanders
 
-Modelling hourly cycling volumes using temporal, weather, and spatial features, with an interactive scenario dashboard.
+> Predicting hourly cycling volumes using temporal, weather, and spatial features.
 
-This collaborative project was developed for the Modern Data Analytics course at KU Leuven. This repository presents my personal overview of the team's work, with a focus on my contributions to data preparation, feature engineering, and model testing.
+A collaborative project developed for the **Modern Data Analytics course at KU Leuven**. This repository presents the project and highlights my contributions to **data preparation, feature engineering, and LightGBM model testing**.
 
-Project repository · Dashboard linked in the report
+[Explore the dashboard](https://mda-course-dashboard.streamlit.app/)
 
-Overview
+---
 
-Cycling counts show how traffic varies across locations and time. Our project investigated how well those variations can be predicted from temporal, meteorological, and spatial information.
+## Project Overview
 
-The team combined cycling counts, weather observations, and public transport information to train a LightGBM model with a Poisson objective. A Streamlit dashboard allows users to explore predicted hourly traffic under different conditions.
+Understanding how cycling traffic changes across locations, seasons, and weather conditions can support mobility planning.
 
-Research question: To what extent can cycling traffic volumes across Flanders be predicted using temporal, meteorological, and spatial features?
+Our team combined cycling counts, meteorological observations, and public transport information to predict hourly bicycle passages across Flanders. We developed a **LightGBM model with a Poisson objective** and an interactive dashboard for exploring predictions under different scenarios.
 
-Data
+### Research Question
 
-Source
+To what extent can cycling traffic volumes across Flanders be predicted using temporal, meteorological, and spatial features?
 
-Data used
+---
 
-Agentschap Wegen en Verkeer (AWV)
+## My Contributions
 
-Cycling counts and counting-site locations
+My main responsibility was preparing the data for modelling. I also supported the team's machine learning experiments.
 
-Royal Meteorological Institute of Belgium
+### Data Cleaning and Preparation
 
-Temperature, rainfall, and sunshine observations
+- Cleaned and processed raw data into a consistent, model-ready format.
+- Standardised variable types and date/time formats for processing and merging.
+- Handled missing observations during data preparation.
 
-De Lijn
+### Feature Engineering
 
-Public transport stop locations
+- Transformed variables into suitable inputs for predictive modelling.
+- Created cyclical representations of time variables using sine and cosine transformations.
+- Prepared features to represent recurring hourly and seasonal patterns.
 
-The report describes 1,200,616 prepared observations for 2024 and 1,237,175 for 2025. The prediction target is the number of bicycle passages per counting site per hour, aggregated from 15-minute intervals across both travel directions.
+Cyclical encoding captures relationships such as the proximity of 23:00 to 00:00 and December to January.
 
-My Role
+### LightGBM Testing
 
-My main contribution was data preparation and feature engineering. I also supported the team's LightGBM experiments and evaluation.
+- Helped test the LightGBM model with different hyperparameter settings.
+- Compared model performance across experiments.
+- Supported checks of model generalisation and overfitting.
 
-Data cleaning and preparation: Cleaned and transformed the raw data into a consistent format for modelling.
+The broader analysis and dashboard were developed collaboratively by the team.
 
-Missing-data processing: Worked on handling missing observations during data preparation.
+---
 
-Feature engineering: Converted variables into suitable model inputs, including cyclical representations of time features.
+## Dataset
 
-Model testing: Helped test the LightGBM model with different hyperparameter settings and compare model performance.
+| Source | Information |
+| --- | --- |
+| Agentschap Wegen en Verkeer (AWV) | Cycling counts and counting-site locations |
+| Royal Meteorological Institute of Belgium | Temperature, rainfall, and sunshine observations |
+| De Lijn | Public transport stop locations |
 
-Model development, interpretation, and the dashboard were collaborative project outputs; this section describes my own involvement rather than claiming sole ownership of the workflow.
+| Prepared dataset | Observations |
+| --- | ---: |
+| 2024 | 1,200,616 |
+| 2025 | 1,237,175 |
 
-Data Preparation and Feature Engineering
+**Prediction target:** Bicycle passages per counting site per hour.
 
-The team's preparation workflow included:
+The original 15-minute counts were aggregated into hourly observations, combining both travel directions.
 
-Combining monthly cycling records and aggregating counts to hourly observations.
+---
 
-Standardising date and hour formats for merging datasets.
+## Data Preparation Workflow
 
-Linking cycling sites to nearby weather stations, using the next-nearest stations when information from the closest station was missing.
+The team's workflow included:
 
-Deriving temporal features, including season and weekend indicators.
+1. **Combining cycling records**  
+   Merged monthly datasets and retained cyclist counts.
 
-Creating public transport features based on stops within one kilometre of each counting site.
+2. **Aggregating observations**  
+   Converted 15-minute records into hourly counts.
 
-Encoding hour and month with sine and cosine pairs to represent their cyclical structure.
+3. **Preparing temporal features**  
+   Extracted hour, month, season, and weekday/weekend information.
 
-Preparing categorical variables for LightGBM.
+4. **Integrating weather data**  
+   Matched cycling sites to nearby weather stations and used alternative nearby stations when observations were missing.
 
-Cyclical encoding represents the wraparound in time: 23:00 and 00:00 are adjacent, as are December and January. This gives the model features that reflect those relationships.
+5. **Adding public transport features**  
+   Calculated the number and proximity of public transport stops within one kilometre of each counting site.
 
-Modelling and Evaluation
+6. **Encoding model inputs**  
+   Created cyclical time features and prepared categorical variables for LightGBM.
 
-The team used LightGBM with a Poisson objective to predict non-negative cycling counts while allowing nonlinear relationships and interactions between features.
+---
 
-The reported workflow used 2024 observations for training and randomly divided the 2025 data into validation (20%) and test (80%) subsets. Experiments varied settings such as learning rate, number of leaves, feature fraction, minimum observations per leaf, and boosting rounds.
+## Modelling Approach
 
-Performance was assessed using mean Poisson deviance, with a constant prediction based on the training mean as a baseline. Lower deviance indicates better performance.
+We used **LightGBM with a Poisson objective** to model non-negative cycling counts and capture nonlinear relationships between predictors.
 
-Findings
+### Training and Evaluation
 
-The report shows substantially lower Poisson deviance for LightGBM than for the constant-mean baseline.
+- **Training data:** 2024 observations.
+- **Validation data:** 20% of the 2025 observations.
+- **Test data:** The remaining 80% of the 2025 observations.
+- **Evaluation metric:** Mean Poisson deviance.
+- **Baseline:** A constant prediction equal to the training-set mean.
 
-Counting-site identity and time of day were prominent predictors, although their ranking differed between split-based feature importance and SHAP analysis.
+The validation and test subsets were created by randomly splitting the 2025 data.
 
-Temperature contributed to predictions, while public transport features had relatively low importance in the reported SHAP analysis.
+### Model Experiments
 
-These are predictive associations, not evidence that changing a feature causes a change in cycling activity.
+The team explored settings including:
 
-Interactive Dashboard
+- Learning rate.
+- Number of leaves.
+- Feature fraction.
+- Minimum observations per leaf.
+- Number of boosting rounds.
+- Bagging.
 
-The team's Streamlit and PyDeck dashboard presents predictions on a map and in a table. Users can adjust month, hour, weekday/weekend status, temperature, rainfall, and sunshine duration.
+---
 
-It compares the selected scenario with a reference scenario for each station, helping users explore variation in predicted cycling activity across the network.
+## Main Findings
 
-Limitations and Next Steps
+- LightGBM achieved substantially lower Poisson deviance than the constant-mean baseline.
+- Time of day and counting-site identity were prominent predictors.
+- Temperature contributed to predictions.
+- Public transport features had relatively low importance in the reported SHAP analysis.
+- Feature rankings differed between split-based importance and SHAP, reflecting the different quantities these methods measure.
 
-The report describes using test performance to select boosting rounds. A stronger future evaluation would select all settings on validation data and reserve a separate test period for the final assessment.
+These findings describe predictive relationships and do not establish causal effects.
 
-The report contains two different model test-deviance values. Exact headline metrics are omitted here pending reconciliation with the final experiment output.
+---
 
-Reliance on site identity limits confidence in predictions for previously unseen stations.
+## Interactive Dashboard
 
-Extreme weather and unusual conditions may be poorly represented in the historical data.
+The team developed a dashboard using **Streamlit and PyDeck** to explore predicted cycling traffic across the monitoring network.
 
-Roadworks, public events, school holidays, and socioeconomic features could provide additional context.
+Users can adjust:
 
-Technology Stack
+- Month and hour.
+- Weekday or weekend.
+- Temperature.
+- Rainfall.
+- Sunshine duration.
 
-Area
+The dashboard displays station-level predictions on a map and compares the selected scenario with a reference scenario.
 
-Tools
+[Open the dashboard](https://mda-course-dashboard.streamlit.app/)
 
-Data preparation and numerical processing
+---
 
-Python, pandas, NumPy
+## Technology Stack
 
-Predictive modelling and evaluation
+| Area | Tools |
+| --- | --- |
+| Data preparation | Python, pandas, NumPy |
+| Machine learning | LightGBM |
+| Model evaluation | scikit-learn |
+| Model interpretation | SHAP |
+| Dashboard | Streamlit, PyDeck |
+| Collaboration | GitHub |
 
-LightGBM, scikit-learn
+---
 
-Model interpretation
+## Limitations and Future Improvements
 
-SHAP
+- **Evaluation design:** The report describes selecting boosting rounds using test performance. Future experiments should tune exclusively on validation data and reserve an untouched test period for final evaluation.
+- **Metric reconciliation:** The report contains two different test-deviance values, so an exact final score is not presented here.
+- **New locations:** Reliance on site identity may limit performance at previously unseen counting stations.
+- **Unusual conditions:** Predictions may be less reliable for extreme weather or scenarios poorly represented in the training data.
+- **Additional features:** School holidays, roadworks, public events, and socioeconomic information could enrich the analysis.
 
-Interactive dashboard
+Potential workflow improvements include automated data ingestion and systematic experiment tracking.
 
-Streamlit, PyDeck
+---
 
-Collaboration
+## Team and Acknowledgements
 
-GitHub
+This project was completed by:
 
-Team and Acknowledgements
+- Junior Anyakudo
+- Anastasia De Bondt
+- Darya Lukashina
+- Yea Sung Kim
 
-Completed by Junior Anyakudo, Anastasia De Bondt, Darya Lukashina, and Yea Sung Kim as Group 18 at KU Leuven.
+**KU Leuven · Modern Data Analytics · Group 18 · May 2026**
 
-The analysis, results, and dashboard are team outputs. This personal presentation is based on the project report dated 24 May 2026 and my own account of my contributions.
+The analysis, results, and dashboard are collaborative outputs. This repository provides my personal presentation of the project and identifies my own contributions.
 
-The report also identifies DayaLuna/MDA_course as a code repository. The links above are provided as project references; this presentation does not duplicate the full codebase.
+### Project Links
+
+- [Project repository shared for this portfolio](https://github.com/yeasung240/Modern_data_analysis)
+- [Code repository listed in the team report](https://github.com/DayaLuna/MDA_course)
+- [Interactive dashboard](https://mda-course-dashboard.streamlit.app/)
