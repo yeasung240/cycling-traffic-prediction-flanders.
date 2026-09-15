@@ -197,7 +197,7 @@ This project was completed by:
 - Darya Lukashina
 - Yea Sung Kim
 
-**KU Leuven · Modern Data Analytics · Group 18 · May 2026**
+**KU Leuven · Modern Data Analytics · May 2026**
 
 The analysis, results, and dashboard are collaborative outputs. This repository provides my personal presentation of the project and identifies my own contributions.
 
