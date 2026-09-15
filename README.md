@@ -18,7 +18,8 @@ A collaborative project developed for the **Modern Data Analytics course at KU L
   </tr>
 </table>
 
-Explore predicted hourly cycling traffic under different weather and time conditions. Click the image to open the interactive dashboard.
+Explore predicted hourly cycling traffic under different weather and time conditions. 
+Click the image to open the interactive dashboard.
 
 ---
 
