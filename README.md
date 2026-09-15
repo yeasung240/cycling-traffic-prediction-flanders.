@@ -11,7 +11,6 @@ A collaborative project developed for the **Modern Data Analytics course at KU L
 
 Explore predicted hourly cycling traffic under different weather and time conditions. Click the image to open the interactive dashboard.
 
-[Explore the dashboard](https://mda-course-dashboard.streamlit.app/)
 ---
 
 ## Project Overview
