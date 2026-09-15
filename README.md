@@ -4,8 +4,14 @@
 
 A collaborative project developed for the **Modern Data Analytics course at KU Leuven**. This repository presents the project and highlights my contributions to **data preparation, feature engineering, and LightGBM model testing**.
 
-[Explore the dashboard](https://mda-course-dashboard.streamlit.app/)
 
+| Cycling Traffic Prediction Dashboard |
+| :---: |
+| [![Cycling Traffic Predictor showing scenario controls and a map of Leuven](dashboard.png)](https://mda-course-dashboard.streamlit.app/) |
+
+Explore predicted hourly cycling traffic under different weather and time conditions. Click the image to open the interactive dashboard.
+
+[Explore the dashboard](https://mda-course-dashboard.streamlit.app/)
 ---
 
 ## Project Overview
